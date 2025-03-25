@@ -2,16 +2,16 @@ import os.path
 
 import pyvisa
 
-rm = pyvisa.ResourceManager()
+rm: pyvisa.ResourceManager = pyvisa.ResourceManager()
 
-counter = 0
-targetLabel = '8'
-angle = '130'
-OAM = '8'
-dataDir = 'data/' + targetLabel + '/' + OAM + '/' + angle
+counter: int = 0
+targetLabel: str = 'X'
+angle: str = '130'
+OAM: str = '8'
+dataDir: str = 'data/' + targetLabel + '/' + OAM + '/' + angle
 os.makedirs(dataDir, 0o777, True)
 
-inst = rm.open_resource('TCPIP::192.168.0.12::INSTR')
+inst: pyvisa.Resource = rm.open_resource('TCPIP::192.168.0.12::INSTR')
 print(inst.query("*IDN?"))
 inst.timeout = None
 
@@ -34,8 +34,8 @@ while True:
         data = inst.query("CURVe?")
         while True:
 
-            dataFileName = dataDir + "/" + str(counter) + '-' + str(channel) + "-data.data"
-            headFileName = dataDir + "/" + str(counter) + '-' + str(channel) + "-head.data"
+            dataFileName: str = dataDir + "/" + str(counter) + '-' + str(channel) + "-data.data"
+            headFileName: str = dataDir + "/" + str(counter) + '-' + str(channel) + "-head.data"
             if os.path.isfile(headFileName) or os.path.isfile(dataFileName):
                 counter += 1
                 print(counter)
